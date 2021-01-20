@@ -9,13 +9,14 @@ enum ViewState { Idle, Loading, Done, Error }
 
 class NewsProvider extends ChangeNotifier {
   List<NewsModal> _news = [];
-  ViewState _state = ViewState.Idle;
+  ViewState _state = ViewState.Error;
 
   List<NewsModal> get news => [..._news];
   ViewState get state => _state;
 
   Future<void> fetchNews(String query) async {
     _state = ViewState.Loading;
+    notifyListeners();
 
     try {
       final path = "${Global.baseurl}/search";

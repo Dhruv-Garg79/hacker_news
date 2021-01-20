@@ -33,6 +33,8 @@ class _NewsListScreenState extends State<NewsListScreen> {
           ),
           onChanged: (val) {
             query = val;
+          },
+          onSubmitted: (val) {
             Provider.of<NewsProvider>(context, listen: false).fetchNews(val);
           },
         ),
@@ -66,43 +68,45 @@ class _NewsListScreenState extends State<NewsListScreen> {
   }
 
   Widget newsItem(NewsModal news, int pos) {
-    return InkWell(
-      onTap: () {
-        ExtendedNavigator.root.push(
-          Routes.newsDetailScreen,
-          arguments: NewsDetailScreenArguments(
-            position: pos,
-            title: news.title,
-          ),
-        );
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 16,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              news.title,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+    return news.title != null
+        ? InkWell(
+            onTap: () {
+              ExtendedNavigator.root.push(
+                Routes.newsDetailScreen,
+                arguments: NewsDetailScreenArguments(
+                  position: pos,
+                  title: news.title,
+                ),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 16,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    news.title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    '${news.author ?? ''} • ${CommonFunc.formattedDateTime(news.createdAt)}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(
-              height: 8,
-            ),
-            Text(
-              '${news.author} • ${CommonFunc.formattedDateTime(news.createdAt)}',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+          )
+        : SizedBox();
   }
 }
