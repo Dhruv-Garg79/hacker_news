@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hacker_news/models/comment_modal.dart';
 import 'package:hacker_news/models/news_modal.dart';
 import 'package:hacker_news/providers/news_provider.dart';
-import 'package:hacker_news/utils/common_func.dart';
 import 'package:hacker_news/widgets/comment_widget.dart';
 import 'package:hacker_news/widgets/loader.dart';
 import 'package:hacker_news/widgets/my_error_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 class NewsDetailScreen extends StatelessWidget {
   final int position;
@@ -31,11 +29,10 @@ class NewsDetailScreen extends StatelessWidget {
                   ? MyErrorWidget(
                       onRetry: () {},
                     )
-                  : SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
+                  : CustomScrollView(
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,9 +54,19 @@ class NewsDetailScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          buildComments(news.comments, 0),
-                        ],
-                      ),
+                        ),
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (BuildContext ctx, int index) {
+                              return CommentWidget(
+                                comment: news.comments[index],
+                                level: 0,
+                              );
+                            },
+                            childCount: news.comments.length,
+                          ),
+                        )
+                      ],
                     );
         },
       ),
@@ -67,13 +74,13 @@ class NewsDetailScreen extends StatelessWidget {
   }
 
   Widget buildComments(List<CommentModal> list, int level) {
-    return ListView.builder(
-      primary: false,
-      shrinkWrap: true,
-      itemCount: list.length,
-      itemBuilder: (context, index) {
-        return CommentWidget(comment: list[index], level: level);
-      },
+    return Expanded(
+      child: ListView.builder(
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          return CommentWidget(comment: list[index], level: level);
+        },
+      ),
     );
   }
 
