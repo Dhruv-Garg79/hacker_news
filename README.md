@@ -1,16 +1,7 @@
 # hacker_news
 
-A new Flutter project.
+A cross platform news app build using hacker news API using Flutter framework.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://github.com/Dhruv-Garg79/hacker_news/blob/main/ss/Screenshot_2021-01-20-23-59-08-40.jpg" width="300">
+<img src="https://github.com/Dhruv-Garg79/hacker_news/blob/main/ss/Screenshot_2021-01-20-23-59-27-29.jpg" width="300">
+<img src="https://github.com/Dhruv-Garg79/hacker_news/blob/main/ss/Screenshot_2021-01-20-23-59-43-95.jpg" width="300">
