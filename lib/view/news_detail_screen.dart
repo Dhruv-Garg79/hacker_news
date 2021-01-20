@@ -3,6 +3,7 @@ import 'package:hacker_news/models/comment_modal.dart';
 import 'package:hacker_news/models/news_modal.dart';
 import 'package:hacker_news/providers/news_provider.dart';
 import 'package:hacker_news/utils/common_func.dart';
+import 'package:hacker_news/widgets/comment_widget.dart';
 import 'package:hacker_news/widgets/loader.dart';
 import 'package:hacker_news/widgets/my_error_widget.dart';
 import 'package:provider/provider.dart';
@@ -35,20 +36,10 @@ class NewsDetailScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "Points : ${news.points}",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
                                 Text(
                                   "Comments : ${news.numComments}",
                                   style: TextStyle(
@@ -56,11 +47,15 @@ class NewsDetailScreen extends StatelessWidget {
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
+                                Text(
+                                  "Points : ${news.points}",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
                               ],
                             ),
-                          ),
-                          SizedBox(
-                            height: 8,
                           ),
                           buildComments(news.comments, 0),
                         ],
@@ -77,69 +72,8 @@ class NewsDetailScreen extends StatelessWidget {
       shrinkWrap: true,
       itemCount: list.length,
       itemBuilder: (context, index) {
-        return buildCommentItem(list[index], level);
+        return CommentWidget(comment: list[index], level: level);
       },
-    );
-  }
-
-  Widget buildCommentItem(CommentModal comment, int level) {
-    return level == 0
-        ? Container(
-            color: Colors.grey[900],
-            margin: const EdgeInsets.only(bottom: 16),
-            padding: const EdgeInsets.all(8),
-            child: buildComment(comment, level),
-          )
-        : Row(
-          children: [
-            VerticalDivider(
-              thickness: 1,
-              color: Colors.white,
-            ),
-            Flexible(
-              child: buildComment(comment, level),
-            ),
-          ],
-        );
-  }
-
-  Widget buildComment(CommentModal comment, int level) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Text(
-                  '${comment.author ?? ''} • ',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  comment.createdAt == null
-                      ? ''
-                      : CommonFunc.formattedDateTime(comment.createdAt),
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 4),
-            Html(
-              data: comment.text ?? '',
-            ),
-          ],
-        ),
-        if (comment.children != null && comment.children.isNotEmpty)
-          buildComments(comment.children, level + 1),
-      ],
     );
   }
 

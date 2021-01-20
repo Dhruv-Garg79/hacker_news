@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (ctx) => NewsProvider(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: Global.appName,
         theme: ThemeData(
           brightness: Brightness.dark,
