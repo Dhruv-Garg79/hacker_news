@@ -33,12 +33,12 @@ class _CommentWidgetState extends State<CommentWidget> {
             decoration: BoxDecoration(
               border: Border(
                 left: BorderSide(
-                  width: 1,
+                  width: 0.5,
                   color: Colors.white,
                 ),
               ),
             ),
-            padding: const EdgeInsets.only(left: 8),
+            padding: const EdgeInsets.only(left: 8, top: 8),
             margin: const EdgeInsets.only(left: 4),
             child: buildComment(comment, level),
           );
@@ -55,7 +55,7 @@ class _CommentWidgetState extends State<CommentWidget> {
             Row(
               children: [
                 Text(
-                  '${comment.author ?? ''} • ',
+                  '${comment.author ?? 'Anonymous'} • ',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,

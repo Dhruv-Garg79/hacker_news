@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:hacker_news/models/comment_modal.dart';
 import 'package:hacker_news/models/news_modal.dart';
 import 'package:hacker_news/providers/news_provider.dart';
-import 'package:hacker_news/widgets/comment_widget.dart';
+import 'package:hacker_news/view/comment_widget.dart';
 import 'package:hacker_news/widgets/loader.dart';
 import 'package:hacker_news/widgets/my_error_widget.dart';
 import 'package:provider/provider.dart';
 
-class NewsDetailScreen extends StatelessWidget {
+class NewsDetailScreen extends StatefulWidget {
   final int position;
   final String title;
   const NewsDetailScreen({Key key, this.position, this.title})
       : super(key: key);
 
   @override
+  _NewsDetailScreenState createState() => _NewsDetailScreenState();
+}
+
+class _NewsDetailScreenState extends State<NewsDetailScreen> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
       ),
       body: FutureBuilder<NewsModal>(
         future: getDetails(context),
@@ -27,7 +31,9 @@ class NewsDetailScreen extends StatelessWidget {
               ? Loader()
               : news == null
                   ? MyErrorWidget(
-                      onRetry: () {},
+                      onRetry: () {
+                        setState(() {});
+                      },
                     )
                   : CustomScrollView(
                       slivers: [
@@ -73,19 +79,8 @@ class NewsDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget buildComments(List<CommentModal> list, int level) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (context, index) {
-          return CommentWidget(comment: list[index], level: level);
-        },
-      ),
-    );
-  }
-
   Future<NewsModal> getDetails(BuildContext context) {
     return Provider.of<NewsProvider>(context, listen: false)
-        .fetchNewsDetails(position);
+        .fetchNewsDetails(widget.position);
   }
 }

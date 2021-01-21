@@ -9,7 +9,7 @@ enum ViewState { Idle, Loading, Done, Error }
 
 class NewsProvider extends ChangeNotifier {
   List<NewsModal> _news = [];
-  ViewState _state = ViewState.Error;
+  ViewState _state = ViewState.Idle;
 
   List<NewsModal> get news => [..._news];
   ViewState get state => _state;
