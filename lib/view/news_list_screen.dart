@@ -22,19 +22,14 @@ class _NewsListScreenState extends State<NewsListScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: TextField(
-          style: TextStyle(
-            color: Colors.white,
-          ),
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.search, color: Colors.white),
+            prefixIcon: Icon(Icons.search),
             hintText: "Search...",
             hintStyle: TextStyle(color: Colors.white),
             border: InputBorder.none,
           ),
-          onChanged: (val) {
-            query = val;
-          },
           onSubmitted: (val) {
+            query = val;
             Provider.of<NewsProvider>(context, listen: false).fetchNews(val);
           },
         ),

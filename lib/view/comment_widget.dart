@@ -46,37 +46,32 @@ class _CommentWidgetState extends State<CommentWidget> {
 
   Widget buildComment(CommentModal comment, int level) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
+        Row(
           children: [
-            Row(
-              children: [
-                Text(
-                  '${comment.author ?? 'Anonymous'} • ',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  comment.createdAt == null
-                      ? ''
-                      : CommonFunc.formattedDateTime(comment.createdAt),
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
-                ),
-              ],
+            Text(
+              '${comment.author ?? 'Anonymous'} • ',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            SizedBox(height: 4),
-            Html(
-              data: comment.text ?? '',
+            Text(
+              comment.createdAt == null
+                  ? ''
+                  : CommonFunc.formattedDateTime(comment.createdAt),
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+              ),
             ),
           ],
+        ),
+        SizedBox(height: 4),
+        Html(
+          data: comment.text ?? '',
         ),
         if (comment.children != null && comment.children.isNotEmpty && !_show)
           Row(
